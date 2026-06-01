@@ -1,0 +1,185 @@
+/* buttons.css — the keystone .btn primitive: variables all the way down, variants flip only tokens. dhh-css starter kit. Load _global.css first. */
+
+@layer components {
+  .btn {
+    /* Component-local tokens — consumed below with inline fallbacks. */
+    --btn-icon-size: var(--btn-icon-size, 1.3em);
+    --btn-border-radius: var(--btn-border-radius, 99rem);
+    --btn-border-size: var(--btn-border-size, 1px);
+    --btn-gap: var(--btn-gap, 0.5em);
+    --btn-padding: var(--btn-padding, 0.5em 1.1em);
+    --btn-font-weight: var(--btn-font-weight, 600);
+    --btn-hover-brightness: var(--btn-hover-brightness, 0.9);
+    --btn-size: var(--btn-size, 2.6em);
+
+    align-items: center;
+    background-color: var(--btn-background, var(--color-canvas));
+    border: var(--btn-border-size) solid var(--btn-border-color, var(--color-ink-light));
+    border-radius: var(--btn-border-radius);
+    color: var(--btn-color, var(--color-ink));
+    cursor: pointer;
+    display: inline-flex;
+    font-family: inherit;
+    font-size: 1em;
+    font-weight: var(--btn-font-weight);
+    gap: var(--btn-gap);
+    justify-content: center;
+    padding: var(--btn-padding);
+    pointer-events: auto;
+    position: relative;
+    transition: 100ms ease-out;
+    transition-property: background-color, border, box-shadow, color, filter, opacity, scale;
+
+    /* Hover only where a real pointer can hover. */
+    @media (any-hover: hover) {
+      &:hover {
+        filter: brightness(var(--btn-hover-brightness));
+      }
+    }
+
+    /* Dark mode brightens instead of darkening — flip one variable. */
+    html[data-theme="dark"] & {
+      --btn-hover-brightness: 1.25;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]) & {
+        --btn-hover-brightness: 1.25;
+      }
+    }
+
+    /* Keyboard focus ring routed through the focus tokens. */
+    &:focus-visible {
+      outline: var(--focus-ring-size) solid var(--focus-ring-color);
+      outline-offset: var(--focus-ring-offset);
+    }
+
+    /* Disabled in every flavor: attribute, descendant, or submitting form. */
+    &[disabled],
+    &:has([disabled]),
+    [disabled] &[type="submit"],
+    &[type="submit"]:disabled {
+      cursor: not-allowed;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* Busy state: hide the label and spin a masked currentColor block — no SVG, no GIF, no JS. */
+    form[aria-busy] &:disabled {
+      position: relative;
+
+      > * {
+        visibility: hidden;
+      }
+
+      &::after {
+        --mask: no-repeat radial-gradient(#000 68%, #0000 71%);
+        --size: 1.25em;
+
+        -webkit-mask: var(--mask), var(--mask), var(--mask);
+        -webkit-mask-size: 28% 45%;
+        mask: var(--mask), var(--mask), var(--mask);
+        mask-size: 28% 45%;
+        animation: btn-submitting 1s infinite linear;
+        aspect-ratio: 8 / 5;
+        background: currentColor;
+        content: "";
+        inline-size: var(--size);
+        inset: 50%;
+        margin-block: calc((var(--size) / 3) * -1);
+        margin-inline: calc((var(--size) / 2) * -1);
+        position: absolute;
+      }
+    }
+  }
+
+  @keyframes btn-submitting {
+    to {
+      -webkit-mask-position: 0 0, 50% 0, 100% 0;
+      mask-position: 0 0, 50% 0, 100% 0;
+    }
+  }
+
+  /* Variants — each flips ONLY variables, never re-states layout.
+  /* ------------------------------------------------------------------------ */
+
+  /* Strip the chrome: borderless, padding-free, transparent. */
+  .btn--plain,
+  .btn--borderless {
+    --btn-background: transparent;
+    --btn-border-radius: 0;
+    --btn-border-size: 0;
+    --btn-color: inherit;
+    --btn-icon-size: 100%;
+    --btn-padding: 0;
+  }
+
+  /* Inverted: dark fill, canvas text. */
+  .btn--reversed {
+    --btn-background: var(--color-ink);
+    --btn-border-color: var(--color-canvas);
+    --btn-color: var(--color-canvas);
+    --focus-ring-color: var(--color-ink);
+  }
+
+  /* Destructive. */
+  .btn--negative {
+    --btn-background: var(--color-negative);
+    --btn-border-color: var(--color-negative);
+    --btn-color: var(--color-ink-inverted);
+    --focus-ring-color: var(--color-negative);
+  }
+
+  /* Confirming. */
+  .btn--positive {
+    --btn-background: var(--color-positive);
+    --btn-border-color: var(--color-canvas);
+    --btn-color: var(--color-ink-inverted);
+    --focus-ring-color: var(--color-positive);
+  }
+
+  /* Icon-only round button — also auto-applies to any .btn whose only
+  /* meaningful content is an image plus a screen-reader-only label. */
+  .btn--circle,
+  .btn[aria-label]:where(:has(img)),
+  .btn:where(:has(.for-screen-reader):has(img)) {
+    --btn-padding: 0;
+    --btn-icon-size: 75%;
+
+    aspect-ratio: 1;
+    block-size: var(--btn-size);
+    display: grid;
+    inline-size: var(--btn-size);
+    justify-content: normal; /* Firefox fix */
+    place-items: center;
+
+    /* Stack every child in the same cell so the icon centers cleanly. */
+    > * {
+      grid-area: 1 / 1;
+    }
+  }
+
+  /* Icons consume the shared --btn-icon-size token. */
+  .btn img {
+    block-size: var(--btn-icon-size);
+    inline-size: var(--btn-icon-size);
+    object-fit: contain;
+  }
+
+  /* Visually hidden label for icon-only buttons — keeps them accessible. */
+  .for-screen-reader {
+    block-size: 1px;
+    clip-path: inset(50%);
+    inline-size: 1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+  }
+
+  /* Spacer button: occupies layout but is inert and invisible. */
+  .btn--placeholder {
+    pointer-events: none;
+    visibility: hidden;
+  }
+}

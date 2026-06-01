@@ -1,0 +1,113 @@
+/* avatars.css — rounded image/initials avatar primitive plus a self-counting stacked avatar-group. dhh-css starter kit. Load _global.css first. */
+
+@layer components {
+  .avatar {
+    --avatar-border-radius: 50%;
+    --avatar-size-default: 5ch;
+    --avatar-bg: var(--color-ink-lightest, oklch(var(--lch-uncolor-lightest)));
+    --avatar-color: var(--color-ink, oklch(var(--lch-ink-dark)));
+
+    aspect-ratio: 1;
+    background-color: var(--avatar-bg);
+    block-size: var(--avatar-size, var(--avatar-size-default));
+    border-radius: var(--avatar-border-radius);
+    color: var(--avatar-color);
+    display: grid;
+    flex-shrink: 0;
+    font-size: calc(var(--avatar-size, var(--avatar-size-default)) * 0.4);
+    font-weight: 600;
+    inline-size: var(--avatar-size, var(--avatar-size-default));
+    line-height: 1;
+    margin: 0;
+    overflow: hidden;
+    place-items: center;
+    text-transform: uppercase;
+    user-select: none;
+
+    /* Image or icon fills the circle; initials text sits in the same grid cell. */
+    :is(img, svg, .avatar__icon, .avatar__initials) {
+      grid-area: 1/1;
+    }
+
+    :is(img, svg, .avatar__icon) {
+      aspect-ratio: 1;
+      block-size: 100%;
+      border-radius: var(--avatar-border-radius);
+      inline-size: 100%;
+      max-inline-size: 100%;
+      object-fit: cover;
+    }
+  }
+
+  /*
+   * Stacked, self-counting avatar group.
+   *
+   * Avatars overlap with a negative inline margin. The cap (--avatar-group-max)
+   * controls how many are visible; any beyond the cap are hidden, and an
+   * optional .avatar-group__count chip surfaces the overflow ("+N"). Because the
+   * count is driven purely by :has() + :nth-child(), the markup stays dumb — drop
+   * in N avatars and the layout reacts on its own.
+   */
+  .avatar-group {
+    --avatar-group-overlap: 0.35em;
+    --avatar-group-ring: var(--color-canvas, oklch(var(--lch-canvas)));
+    --avatar-group-ring-size: 0.12em;
+    --avatar-group-max: 3;
+
+    display: flex;
+    isolation: isolate;
+
+    > .avatar {
+      box-shadow: 0 0 0 var(--avatar-group-ring-size) var(--avatar-group-ring);
+
+      &:not(:first-child) {
+        margin-inline-start: calc(-1 * var(--avatar-group-overlap));
+      }
+    }
+
+    /* Stack the leftmost avatar on top, descending toward the right. */
+    > :nth-child(1) { z-index: 6; }
+    > :nth-child(2) { z-index: 5; }
+    > :nth-child(3) { z-index: 4; }
+    > :nth-child(4) { z-index: 3; }
+    > :nth-child(5) { z-index: 2; }
+    > :nth-child(n + 6) { z-index: 1; }
+
+    /* Overflow count chip mirrors the avatar shape. */
+    .avatar-group__count {
+      align-items: center;
+      aspect-ratio: 1;
+      background-color: var(--color-ink-light, oklch(var(--lch-uncolor-medium)));
+      block-size: var(--avatar-size, 5ch);
+      border-radius: 50%;
+      box-shadow: 0 0 0 var(--avatar-group-ring-size) var(--avatar-group-ring);
+      color: var(--color-ink-inverted, oklch(var(--lch-ink-inverted)));
+      display: flex;
+      flex-shrink: 0;
+      font-size: calc(var(--avatar-size, 5ch) * 0.34);
+      font-weight: 600;
+      inline-size: var(--avatar-size, 5ch);
+      justify-content: center;
+      line-height: 1;
+      margin-inline-start: calc(-1 * var(--avatar-group-overlap));
+      z-index: 7;
+    }
+
+    /*
+     * Self-counting cap (default --avatar-group-max: 3).
+     * When a 4th+ avatar exists, hide everything past the cap so only the count
+     * chip represents the remainder. Adjust the three selectors together when
+     * overriding the cap.
+     */
+    &:has(> .avatar:nth-child(4)) {
+      > .avatar:nth-child(n + 4) {
+        display: none;
+      }
+    }
+
+    /* No overflow: drop the count chip entirely. */
+    &:not(:has(> .avatar:nth-child(4))) .avatar-group__count {
+      display: none;
+    }
+  }
+}

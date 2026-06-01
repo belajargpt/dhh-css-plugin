@@ -1,0 +1,65 @@
+/* layout.css — generic page shell: a header/main/footer grid with safe-area-aware main padding. dhh-css starter kit. Load _global.css first. */
+
+@layer base {
+  /*
+    Generic page shell.
+
+    Apply `.layout` to <body> (or any wrapper) to get a vertical, full-height
+    grid: an optional sticky-able header, a flexible main column that grows to
+    fill the viewport, and an optional footer pinned to the bottom.
+
+    HTML shape (semantic landmarks — no framework, no IDs required):
+
+      <body class="layout">
+        <header class="layout__header">…</header>
+        <main class="layout__main">…</main>
+        <footer class="layout__footer">…</footer>
+      </body>
+
+    Header and footer are optional: with `1fr` on the main row, the grid
+    collapses gracefully when either is absent.
+  */
+  .layout {
+    /* Component-local tokens — override per project without touching globals. */
+    --layout-header-height: var(--layout-header-height, auto);
+    --layout-footer-height: var(--layout-footer-height, auto);
+    --layout-max-inline-size: var(--layout-max-inline-size, 100dvw);
+    --layout-align: var(--layout-align, center);
+
+    display: grid;
+    grid-template-rows:
+      var(--layout-header-height, auto)
+      1fr
+      var(--layout-footer-height, auto);
+    min-block-size: 100dvh;
+
+    & > :where(.layout__header) {
+      position: relative;
+      z-index: var(--z-nav);
+    }
+
+    & > :where(.layout__main) {
+      inline-size: 100dvw;
+      max-inline-size: var(--layout-max-inline-size, 100dvw);
+      margin-inline: auto;
+      padding-inline:
+        calc(var(--main-padding) + env(safe-area-inset-left))
+        calc(var(--main-padding) + env(safe-area-inset-right));
+      padding-block:
+        calc(env(safe-area-inset-top))
+        calc(env(safe-area-inset-bottom));
+      text-align: var(--layout-align, center);
+    }
+
+    & > :where(.layout__footer) {
+      max-inline-size: var(--layout-max-inline-size, 100dvw);
+    }
+
+    /* Chrome is screen-only — keep printed output to the content itself. */
+    & > :is(.layout__header, .layout__footer) {
+      @media print {
+        display: none;
+      }
+    }
+  }
+}

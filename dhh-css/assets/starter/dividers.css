@@ -1,0 +1,51 @@
+/* dividers.css — generic dividers and separators (rules, hairlines, fade). dhh-css starter kit. Load _global.css first. */
+
+@layer components {
+  /* Horizontal labeled rule: a flex row drawing a line on each side of its content. */
+  .divider {
+    --divider-color: var(--color-ink-light);
+    --divider-size: 1px;
+
+    align-items: center;
+    display: flex;
+    gap: var(--inline-space);
+
+    &:before,
+    &:after {
+      background: var(--divider-color);
+      block-size: var(--divider-size, 1px);
+      content: "";
+      flex: 1;
+    }
+  }
+
+  /* Fade the rule out toward the content on each side. */
+  .divider--fade {
+    &:before { background: linear-gradient(to right, transparent, var(--divider-color) 50%); }
+    &:after  { background: linear-gradient(to left, transparent, var(--divider-color) 50%); }
+  }
+
+  /* Hairline separator: a single border drawn between adjacent items.
+     Vertical by default (a thin column); use --horizontal for a thin row. */
+  .separator {
+    --separator-size: 1px;
+    --separator-style: solid;
+    --separator-color: var(--color-ink-lighter);
+
+    block-size: 100%;
+    border-block: 0;
+    border-inline-end: 0;
+    border-inline-start: var(--separator-size, 1px) var(--separator-style, solid) var(--separator-color, currentColor);
+    display: inline-flex;
+    inline-size: 0;
+  }
+
+  .separator--horizontal {
+    block-size: 0;
+    border-block-end: 0;
+    border-block-start: var(--separator-size, 1px) var(--separator-style, solid) var(--separator-color, currentColor);
+    border-inline: 0;
+    display: flex;
+    inline-size: auto;
+  }
+}

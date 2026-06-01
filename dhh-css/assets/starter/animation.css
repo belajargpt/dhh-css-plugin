@@ -1,0 +1,93 @@
+/* animation.css — reusable @keyframes library + animation utility classes. dhh-css starter kit. Load _global.css first. */
+
+@layer utilities {
+  /* Utility classes ----------------------------------------------------- */
+
+  .shake {
+    animation: shake 400ms both;
+  }
+
+  /* Keyframes library --------------------------------------------------- */
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes pulse {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.4; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes appear-then-fade {
+    0%, 100% { opacity: 0; }
+    5%, 60%  { opacity: 1; }
+  }
+
+  @keyframes slide-up {
+    from { transform: translateY(2rem); }
+    to   { transform: translateY(0); }
+  }
+
+  @keyframes slide-down {
+    from { transform: translateY(0); }
+    to   { transform: translateY(2rem); }
+  }
+
+  @keyframes slide-up-fade-in {
+    from { transform: translateY(2rem); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+
+  @keyframes shake {
+    0%  { transform: translateX(-2rem); }
+    25% { transform: translateX(2rem); }
+    50% { transform: translateX(-1rem); }
+    75% { transform: translateX(1rem); }
+  }
+
+  @keyframes wobble {
+    0%  { transform: rotate(calc(var(--wobble-rotate, 0deg) + 30deg)); }
+    15% { border-radius: 66% 34% 72% 28% / 39% 63% 37% 61%; }
+    25% { border-radius: 55% 47% 62% 40% / 58% 50% 52% 44%; }
+    33% { border-radius: 46% 54% 61% 39% / 50% 51% 49% 50%; }
+    50% { border-radius: 54% 46% 61% 39% / 57% 49% 51% 43%; }
+    75% { border-radius: 53% 45% 60% 38% / 56% 48% 50% 42%; }
+  }
+
+  @keyframes success {
+    0%  { background-color: var(--color-ink-lighter); scale: 0.8; }
+    33% { background-color: var(--color-ink-lighter); scale: 1; }
+  }
+
+  @keyframes zoom-fade {
+    100% { transform: translateY(-1.5em); scale: 2; opacity: 0; }
+  }
+
+  /* Three-dot loading spinner — walks each of the three mask layers     */
+  /* through a 3x3 grid of positions. Consumed by spinners.css.          */
+  @keyframes submitting {
+    0%    { mask-position: 0% 0%,   50% 0%,   100% 0%;   -webkit-mask-position: 0% 0%,   50% 0%,   100% 0%; }
+    12.5% { mask-position: 0% 50%,  50% 0%,   100% 0%;   -webkit-mask-position: 0% 50%,  50% 0%,   100% 0%; }
+    25%   { mask-position: 0% 100%, 50% 50%,  100% 0%;   -webkit-mask-position: 0% 100%, 50% 50%,  100% 0%; }
+    37.5% { mask-position: 0% 100%, 50% 100%, 100% 50%;  -webkit-mask-position: 0% 100%, 50% 100%, 100% 50%; }
+    50%   { mask-position: 0% 100%, 50% 100%, 100% 100%; -webkit-mask-position: 0% 100%, 50% 100%, 100% 100%; }
+    62.5% { mask-position: 0% 50%,  50% 100%, 100% 100%; -webkit-mask-position: 0% 50%,  50% 100%, 100% 100%; }
+    75%   { mask-position: 0% 0%,   50% 50%,  100% 100%; -webkit-mask-position: 0% 0%,   50% 50%,  100% 100%; }
+    87.5% { mask-position: 0% 0%,   50% 0%,   100% 50%;  -webkit-mask-position: 0% 0%,   50% 0%,   100% 50%; }
+    100%  { mask-position: 0% 0%,   50% 0%,   100% 0%;   -webkit-mask-position: 0% 0%,   50% 0%,   100% 0%; }
+  }
+
+  /* Respect the user's motion preference --------------------------------- */
+
+  @media (prefers-reduced-motion: reduce) {
+    .shake {
+      animation: none;
+    }
+  }
+}

@@ -32,6 +32,18 @@ claude plugin install dhh-css
 
 ---
 
+## Copy-ready starter kit
+
+The plugin ships **15 real, framework-agnostic `.css` files** at [`dhh-css/assets/starter/`](dhh-css/assets/starter/) — not code blocks, actual files you copy into any project. Every value is real, mined verbatim from the 37signals stylesheets.
+
+**Foundation** (load `_global.css` first): `_global.css` (the `@layer` line + the full OKLCH token system + dark mode) · `reset.css` · `base.css` · `layout.css` · `utilities.css`
+
+**Reusable primitives** (one file, many uses): `buttons.css` · `inputs.css` · `icons.css` (a masked-icon engine + inline glyphs) · `animation.css` · `spinners.css` (CSS-mask loader, no JS) · `dialog.css` (`@starting-style`) · `avatars.css` · `bubble.css` · `dividers.css` · `tooltips.css`
+
+The kit ships **primitives only** — domain-free building blocks. You build your *feature* components (a checkout panel, a kanban column) on top, in `@layer modules`, by setting primitive tokens rather than restyling them. See [`assets/starter/README.md`](dhh-css/assets/starter/README.md) for the load order and the primitives-vs-feature rule.
+
+---
+
 ## The 5 Skills
 
 Each skill auto-invokes based on trigger keywords in your prompts. Start with `css-design-system` on a blank project, then deepen with the rest.

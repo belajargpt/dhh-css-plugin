@@ -1,0 +1,128 @@
+/* bubble.css — organic .bubble badge / count chip primitive driven by --bubble-* tokens. dhh-css starter kit. Load _global.css first. */
+
+@layer components {
+  .bubble {
+    /* Component-local tokens — consumed below with inline fallbacks. */
+    --bubble-size: var(--bubble-size, 4rem);
+    --bubble-color: var(--bubble-color, var(--color-link));
+    --bubble-text-color: var(--bubble-text-color, var(--color-ink-inverted));
+    --bubble-shape: var(--bubble-shape, 54% 46% 61% 39% / 57% 49% 51% 43%);
+    --bubble-rotate: var(--bubble-rotate, 0deg);
+    --bubble-font-size: var(--bubble-font-size, 1.4rem);
+    --bubble-number-max: var(--bubble-number-max, 1.625rem);
+    --bubble-tint-min: var(--bubble-tint-min, 8%);
+    --bubble-tint-max: var(--bubble-tint-max, 48%);
+
+    block-size: var(--bubble-size);
+    color: var(--bubble-text-color);
+    container-type: inline-size;
+    display: inline-grid;
+    font-size: var(--bubble-font-size);
+    font-weight: bold;
+    inline-size: var(--bubble-size);
+    padding: 0.5cqi;
+    place-content: center;
+    position: relative;
+    text-align: center;
+
+    /* The blob itself: a tinted radial gradient clipped to an organic shape. */
+    &::before {
+      background: radial-gradient(
+        color-mix(in srgb, var(--bubble-color) var(--bubble-tint-min), var(--color-canvas)) 50%,
+        color-mix(in srgb, var(--bubble-color) var(--bubble-tint-max), var(--color-canvas)) 100%
+      );
+      border-radius: var(--bubble-shape);
+      content: "";
+      inset: 0;
+      position: absolute;
+      transform: rotate(var(--bubble-rotate));
+      z-index: -1;
+    }
+
+    /* Wobble the blob on hover — only where a real pointer can hover. */
+    @media (any-hover: hover) {
+      &:hover::before {
+        animation: bubble-wobble 1200ms;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &:hover::before {
+        animation: none;
+      }
+    }
+
+    /* Dark mode: lift the tint so the blob stays legible on dark canvas. */
+    html[data-theme="dark"] & {
+      --bubble-tint-min: 14%;
+      --bubble-tint-max: 60%;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]) & {
+        --bubble-tint-min: 14%;
+        --bubble-tint-max: 60%;
+      }
+    }
+  }
+
+  /* Count chip: a number centered over the blob, fluid to the bubble's size. */
+  .bubble__number {
+    display: grid;
+    font-size: clamp(0.625rem, 50cqi, var(--bubble-number-max));
+    font-weight: 900;
+    inset: 0;
+    place-content: center;
+    position: absolute;
+    text-align: center;
+  }
+
+  /* An icon or short glyph riding inside the bubble. */
+  .bubble :where(img, svg) {
+    display: block;
+    letter-spacing: 0.2ch;
+    text-transform: uppercase;
+  }
+
+  /* Variants — each flips ONLY tokens, never re-states layout.
+  /* ------------------------------------------------------------------------ */
+
+  /* Confirming / neutral count states. */
+  .bubble--positive {
+    --bubble-color: var(--color-positive);
+  }
+
+  .bubble--negative {
+    --bubble-color: var(--color-negative);
+  }
+
+  /* Size presets — single token swap. */
+  .bubble--small {
+    --bubble-size: 2.5rem;
+    --bubble-font-size: 1rem;
+  }
+
+  .bubble--large {
+    --bubble-size: 6rem;
+    --bubble-font-size: 2rem;
+  }
+
+  /* Pin the bubble to the corner of a positioned parent (e.g. an avatar). */
+  .bubble--overlay {
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    position: absolute;
+    transform: translate(40%, -40%);
+    z-index: 1;
+  }
+
+  /* Self-contained organic wobble — kept local so the file works standalone. */
+  @keyframes bubble-wobble {
+    0%  { transform: rotate(calc(var(--bubble-rotate, 0deg) + 30deg)); }
+    15% { border-radius: 66% 34% 72% 28% / 39% 63% 37% 61%; }
+    25% { border-radius: 55% 47% 62% 40% / 58% 50% 52% 44%; }
+    33% { border-radius: 46% 54% 61% 39% / 50% 51% 49% 50%; }
+    50% { border-radius: 54% 46% 61% 39% / 57% 49% 51% 43%; }
+    75% { border-radius: 53% 45% 60% 38% / 56% 48% 50% 42%; }
+  }
+}

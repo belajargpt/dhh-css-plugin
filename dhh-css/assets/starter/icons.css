@@ -1,0 +1,80 @@
+/* icons.css — masked-icon engine: SVG masks tinted with currentColor. dhh-css starter kit. Load _global.css first. */
+
+@layer components {
+  /*
+   * The engine. An .icon is a square box painted with the current text color,
+   * then punched out by an SVG mask. Because the fill is `currentColor`, every
+   * icon inherits the color of its surrounding text for free — no per-color
+   * variants, no recoloring assets. Swap the glyph by setting the local
+   * `--icon-image` token (see the example glyphs and the "add more" note below).
+   *
+   * Local tokens (override per-instance with inline fallbacks):
+   *   --icon-size   final inline/block size of the box        (default 1em)
+   *   --icon-image  the mask image: a data:URI SVG or url()    (default none)
+   */
+  .icon {
+    --icon-size: 1em;
+
+    display: inline-block;
+    flex-shrink: 0;
+    inline-size: var(--icon-size, 1em);
+    block-size: var(--icon-size, 1em);
+    aspect-ratio: 1;
+
+    background-color: currentColor;
+
+    mask-image: var(--icon-image);
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+
+    pointer-events: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* A real <img class="icon"> should show its own pixels, not a tinted mask. */
+  :where(img).icon {
+    background: none;
+    mask: none;
+  }
+
+  /*
+   * Example glyphs, drawn as inline data:URI SVGs so this file has ZERO external
+   * asset dependencies — drop it into any static page and the icons just work.
+   * Each SVG is a 24×24 stroke icon using `currentColor`; the mask only cares
+   * about the alpha shape, so the engine recolors it to match your text.
+   */
+  .icon--close {
+    --icon-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>');
+  }
+
+  .icon--check {
+    --icon-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>');
+  }
+
+  .icon--plus {
+    --icon-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>');
+  }
+
+  .icon--search {
+    --icon-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>');
+  }
+
+  .icon--menu {
+    --icon-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>');
+  }
+
+  /*
+   * Add more glyphs. Two ways:
+   *
+   *   1. Inline data:URI (no extra HTTP request, like the examples above):
+   *        .icon--bell { --icon-image: url('data:image/svg+xml;utf8,<svg …></svg>'); }
+   *
+   *   2. External SVG asset (better for large or numerous icons):
+   *        .icon--bell { --icon-image: url("icons/bell.svg"); }
+   *
+   * Size and color come from context, but can be overridden inline:
+   *        <span class="icon icon--check" style="--icon-size: 1.5rem; color: var(--color-positive)"></span>
+   */
+}

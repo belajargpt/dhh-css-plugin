@@ -22,6 +22,8 @@ Load the CSS however your stack loads CSS — a bundler entry that imports each 
 
 The thesis: HTML stays declarative (it says what it is), changes **cascade** from one place, variants **compose** without re-stating geometry, and a component's media queries **live with the component**.
 
+**You are building reusable primitives.** A well-made component is *agnostic* — one `.btn` or `.card` file serving a toolbar, a form, a dialog, and a list without modification. That reusability is not a separate technique; it's the payoff of the two patterns below (parametrize via variables, select via semantic class + state). Keep components domain-free: the moment one names an app concept (`.checkout`, `.kanban-column`), it has become a *feature component* and belongs in `@layer modules`, composing primitives by setting their tokens. See the primitive-vs-feature rule in **css-guardrails**, and the ready-made primitives in this plugin's `assets/starter/`.
+
 ## Variables all the way down
 
 A base component declares every visual property as `var(--component-X, <inline default>)`. The inline fallback is the default, so the component renders standalone with zero config. Callers and variants then override *only the variable that changes* — never the property, never the layout.

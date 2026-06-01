@@ -6,6 +6,8 @@ This plugin teaches Claude Code to write **a real CSS design system the 37signal
 
 This is **pure CSS**. It drops into plain static HTML, React, Vue, Svelte, or anything that loads a stylesheet — load the files however your stack loads CSS (a bundler entry that imports each file, `<link>` tags, or your framework's global stylesheet import). There is no asset pipeline, no preprocessor, no framework requirement anywhere in this plugin.
 
+**Real files ship with the plugin.** A copy-ready starter kit of 15 framework-agnostic `.css` files lives at `assets/starter/` — a foundation (`_global.css` tokens + `reset`/`base`/`layout`/`utilities`) plus reusable primitives (`buttons`, `inputs`, `icons`, `animation`, `spinners`, `dialog`, `avatars`, `bubble`, `dividers`, `tooltips`). To bootstrap a blank project, **copy those files** rather than regenerating them; load `_global.css` first. The starter ships *primitives only* — build feature components on top in `@layer modules` by setting primitive tokens, never by restyling them.
+
 ## Core Philosophy
 
 **Modern CSS is powerful enough.** No build step required. That's the bet — and three products in, it's paying off.

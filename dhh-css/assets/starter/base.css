@@ -1,0 +1,317 @@
+/* base.css — bare-element typography & defaults reading from tokens. dhh-css starter kit. Load _global.css first. */
+
+@layer base {
+  :root {
+    /* Component-local tokens (override per project; consumed with inline fallbacks) */
+    --base-line-height: 1.375;
+    --base-line-height-tight: 1.15;
+    --base-heading-weight: 700;
+    --base-heading-spacing: var(--block-space-double, 2rem);
+    --base-paragraph-measure: 70ch;
+    --base-code-radius: 0.3em;
+    --base-control-radius: 0.4em;
+    --base-control-padding: 0.5em 0.8em;
+    --base-focus-radius: 0.25ch;
+  }
+
+  html {
+    font-size: 100%;
+
+    @media (min-width: 100ch) {
+      font-size: 1.1875rem;
+    }
+  }
+
+  body {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: none;
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-normal, 1rem);
+    interpolate-size: allow-keywords;
+    line-height: var(--base-line-height, 1.375);
+    margin: 0;
+    max-inline-size: 100vw;
+    scroll-behavior: auto;
+    text-rendering: optimizeLegibility;
+    text-size-adjust: none;
+  }
+
+  /* Headings */
+  :where(h1, h2, h3, h4, h5, h6) {
+    font-weight: var(--base-heading-weight, 700);
+    line-height: var(--base-line-height-tight, 1.15);
+    margin-block: var(--base-heading-spacing, 2rem) var(--block-space, 1rem);
+    text-wrap: balance;
+
+    &:first-child {
+      margin-block-start: 0;
+    }
+  }
+
+  :where(h1) { font-size: var(--text-xx-large, 2.5rem); }
+  :where(h2) { font-size: var(--text-x-large, 1.8rem); }
+  :where(h3) { font-size: var(--text-large, 1.5rem); }
+  :where(h4) { font-size: var(--text-medium, 1.1rem); }
+  :where(h5) { font-size: var(--text-normal, 1rem); }
+  :where(h6) {
+    color: var(--color-ink-medium);
+    font-size: var(--text-small, 0.85rem);
+    text-transform: uppercase;
+  }
+
+  /* Body copy */
+  :where(p, ul, ol, dl, blockquote, pre, table, figure) {
+    margin-block: 0 var(--block-space, 1rem);
+
+    &:last-child {
+      margin-block-end: 0;
+    }
+  }
+
+  :where(p) {
+    max-inline-size: var(--base-paragraph-measure, 70ch);
+    text-wrap: pretty;
+  }
+
+  /* Links */
+  a {
+    text-decoration: none;
+
+    &:not([class]) {
+      color: var(--color-link);
+      text-decoration: underline;
+      text-decoration-skip-ink: auto;
+    }
+  }
+
+  /* Inline emphasis */
+  :where(strong, b) { font-weight: var(--base-heading-weight, 700); }
+  :where(small) { font-size: var(--text-small, 0.85rem); }
+
+  :where(mark) {
+    background: var(--color-highlight);
+    color: inherit;
+    padding-inline: 0.2em;
+  }
+
+  :where(abbr[title]) {
+    cursor: help;
+    text-decoration: underline dotted;
+  }
+
+  :where(hr) {
+    border: 0;
+    border-block-start: var(--border, 1px solid var(--color-ink-lighter));
+    margin-block: var(--block-space-double, 2rem);
+  }
+
+  :where(blockquote) {
+    border-inline-start: 0.25em solid var(--color-ink-lighter);
+    color: var(--color-ink-dark);
+    padding-inline-start: var(--inline-space, 1ch);
+  }
+
+  /* Lists */
+  :where(ul, ol) {
+    padding-inline-start: var(--inline-space-double, 2ch);
+  }
+
+  :where(li) {
+    margin-block: var(--block-space-half, 0.5rem);
+  }
+
+  /* Reset list semantics when explicitly marked as a presentational list */
+  :where(ul, ol):where([role="list"]) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Code */
+  :where(code, kbd, samp, pre) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+
+  :where(code):not(pre code) {
+    background: var(--color-ink-lightest);
+    border-radius: var(--base-code-radius, 0.3em);
+    padding-inline: 0.3em;
+  }
+
+  :where(pre) {
+    background: var(--color-ink-lightest);
+    border-radius: var(--base-control-radius, 0.4em);
+    line-height: var(--base-line-height-tight, 1.15);
+    overflow-x: auto;
+    padding: var(--block-space, 1rem);
+
+    & code {
+      background: none;
+      padding: 0;
+    }
+  }
+
+  kbd {
+    border: 1px solid;
+    border-radius: var(--base-code-radius, 0.3em);
+    box-shadow: 0 0.1em 0 currentColor;
+    font-family: var(--font-mono);
+    font-size: 0.8em;
+    font-weight: 600;
+    opacity: 0.7;
+    padding: 0 0.4em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  /* Media */
+  :where(img, picture, svg, video, canvas) {
+    block-size: auto;
+    max-inline-size: 100%;
+  }
+
+  :where(svg) {
+    fill: currentColor;
+  }
+
+  /* Tables */
+  :where(table) {
+    border-collapse: collapse;
+    inline-size: 100%;
+  }
+
+  :where(th, td) {
+    border-block-end: var(--border, 1px solid var(--color-ink-lighter));
+    padding: var(--block-space-half, 0.5rem) var(--inline-space, 1ch);
+    text-align: start;
+  }
+
+  :where(th) {
+    font-weight: var(--base-heading-weight, 700);
+  }
+
+  :where(caption) {
+    color: var(--color-ink-medium);
+    font-size: var(--text-small, 0.85rem);
+    margin-block-end: var(--block-space-half, 0.5rem);
+    text-align: start;
+  }
+
+  /* Form controls — inherit typography, route color through tokens */
+  :where(input, textarea, select, button) {
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+  }
+
+  :where(input, textarea, select):not([type="checkbox"], [type="radio"], [type="range"], [type="color"]) {
+    background: var(--color-canvas);
+    border: var(--border, 1px solid var(--color-ink-lighter));
+    border-radius: var(--base-control-radius, 0.4em);
+    color: var(--color-ink);
+    padding: var(--base-control-padding, 0.5em 0.8em);
+
+    &::placeholder {
+      color: var(--color-ink-medium);
+      opacity: 1;
+    }
+  }
+
+  :where(textarea) {
+    resize: vertical;
+  }
+
+  :where(fieldset) {
+    border: var(--border, 1px solid var(--color-ink-lighter));
+    border-radius: var(--base-control-radius, 0.4em);
+    margin: 0;
+    padding: var(--block-space, 1rem);
+  }
+
+  :where(legend) {
+    font-weight: var(--base-heading-weight, 700);
+    padding-inline: var(--inline-space-half, 0.5ch);
+  }
+
+  :where(label) {
+    cursor: pointer;
+  }
+
+  :where(button) {
+    cursor: pointer;
+  }
+
+  /* Selection */
+  ::selection {
+    background: var(--color-selected);
+
+    html[data-theme="dark"] & {
+      background-color: var(--color-selected-dark);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme]) & {
+        background-color: var(--color-selected-dark);
+      }
+    }
+  }
+
+  /* Shared interaction & accessibility defaults */
+  :is(a, button, input, textarea, select) {
+    touch-action: manipulation;
+    transition: 100ms ease-out;
+    transition-property: background-color, border-color, box-shadow, filter, outline;
+
+    /* Keyboard navigation */
+    &:where(:focus-visible) {
+      border-radius: var(--base-focus-radius, 0.25ch);
+      outline: var(--focus-ring-size) solid var(--focus-ring-color);
+      outline-offset: var(--focus-ring-offset);
+    }
+
+    /* Default disabled styles */
+    &:where([disabled]) {
+      cursor: not-allowed;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Printing */
+  @page {
+    margin: 1in;
+  }
+
+  @media print {
+    .no-print {
+      display: none;
+    }
+  }
+
+  /* Nicer scrollbars on Chrome 29+. This is intended for Windows machines, but */
+  /* there's not a way to target Windows using CSS, so Chrome on Mac will have */
+  /* slightly thinner scrollbars than normal. #C1C1C1 is the default color on Macs. */
+  @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+    * {
+      scrollbar-color: var(--color-ink-light) transparent;
+      scrollbar-width: thin;
+    }
+  }
+}

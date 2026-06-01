@@ -1,0 +1,44 @@
+/* dialog.css — native <dialog> primitive with @starting-style entrance/exit + ::backdrop fade. dhh-css starter kit. Load _global.css first. */
+
+@layer components {
+  :is(dialog, .dialog) {
+    /* Component-local tokens — override per project; inline fallbacks keep this drop-in. */
+    --dialog-scale-closed: var(--dialog-scale-closed, 0.2);
+    --dialog-backdrop-color: var(--dialog-backdrop-color, var(--color-black));
+    --dialog-backdrop-opacity: var(--dialog-backdrop-opacity, 0.5);
+
+    border: 0;
+    opacity: 0;
+    scale: var(--dialog-scale-closed, 0.2);
+    transform-origin: top center;
+    transition: var(--dialog-duration, 200ms) allow-discrete;
+    transition-property: display, opacity, overlay, scale;
+
+    &::backdrop {
+      background-color: var(--dialog-backdrop-color, var(--color-black));
+      opacity: 0;
+      transition: var(--dialog-duration, 200ms) allow-discrete;
+      transition-property: display, opacity, overlay;
+    }
+
+    &[open] {
+      opacity: 1;
+      scale: 1;
+
+      &::backdrop {
+        opacity: var(--dialog-backdrop-opacity, 0.5);
+      }
+    }
+
+    @starting-style {
+      &[open] {
+        opacity: 0;
+        scale: var(--dialog-scale-closed, 0.2);
+      }
+
+      &[open]::backdrop {
+        opacity: 0;
+      }
+    }
+  }
+}

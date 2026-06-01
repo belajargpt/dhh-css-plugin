@@ -231,6 +231,11 @@ Rule of thumb: if a class needs to win the cascade, it's a **utility** (top laye
 - **New class** only when the structure itself differs (a new `__element`, or a genuinely new component). Never clone a component just to change a color — that's the one-off-variant anti-pattern (#8).
 - Smell test: if your "new" class would copy `display`, `padding`, and `border-radius` from an existing component, you wanted a **variable override**.
 
+### Primitive vs. feature component
+- **Primitive** when the block is domain-free and reused across screens (`.btn`, `.card`, `.icon`). It lives in `@layer components`, is named for what it *is*, and is parametrized by `--component-*` tokens. One file, many uses — safe to ship in a shared starter kit.
+- **Feature component** when it composes primitives for one specific screen and names an app concept (`.checkout`, `.card-column`, `.comment`). It lives in `@layer modules` and **sets primitive tokens** (`.checkout .btn { --btn-background: … }`) instead of restyling them — keep it out of the shared layer.
+- Smell test: does the selector name a thing in *your product's* domain? Then it's a feature component — don't let it leak into a primitive or a copied starter file.
+
 ---
 
 ## CSS Review Checklist
@@ -249,8 +254,9 @@ Run this top-to-bottom over any stylesheet you generated or edited. Each item is
 10. **Variants flip variables?** Modifier classes set `--component-*` tokens only; they never re-declare `display`/`padding`/`border-radius`. Base geometry exists exactly once (#8).
 11. **Motion respects users?** Transitions and animations are inside the component, and `@media (prefers-reduced-motion: reduce)` neutralizes them (see below).
 12. **One source of truth per value?** No color, spacing, or timing duplicated across files. If it repeats, it's a token (#6).
+13. **Primitives stay domain-free?** No shared primitive (a `.btn`/`.card`/`.icon` in `@layer components`) names an app concept or hardcodes a feature's color. Domain-specific blocks live in `@layer modules` and set primitive tokens instead.
 
-If all twelve pass, it's on-convention. If any fails, the fix is named in its anti-pattern, not improvised.
+If all thirteen pass, it's on-convention. If any fails, the fix is named in its anti-pattern, not improvised.
 
 ---
 

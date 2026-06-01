@@ -1,0 +1,105 @@
+/* reset.css — modern CSS reset: box-sizing, margin zeroing, media + form defaults, reduced-motion, dialog/summary normalize. dhh-css starter kit. Load _global.css first. */
+
+@layer reset {
+  /*
+   * Modern CSS Reset
+   * @link https://github.com/hankchizljaw/modern-css-reset
+   */
+
+  /* Box sizing rules */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* Remove default margin */
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+  }
+
+  /* Help prevent overflow of long words / names / URLs */
+  p,
+  li,
+  h1,
+  h2,
+  h3,
+  h4 {
+    word-break: break-word;
+    /* Optional, not supported for all languages */
+    /* hyphens: auto; */
+  }
+
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  /* Set core body defaults */
+  body {
+    min-block-size: 100dvh;
+    font-family: var(--font-sans, sans-serif);
+    font-size: 100%;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+  }
+
+  /* Make images and media easier to work with */
+  :is(img, picture, svg, video, canvas) {
+    display: block;
+    max-inline-size: 100%;
+    block-size: auto;
+  }
+
+  /* Inherit fonts for form controls */
+  :is(input, button, textarea, select) {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  /* Strip the default disclosure marker so summaries can be styled freely */
+  summary {
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::marker {
+      content: "";
+    }
+  }
+
+  /* Reset the native dialog chrome; layout + backdrop are component concerns */
+  dialog {
+    border: 0;
+    padding: 0;
+
+    &:where(:focus-visible):is(:focus, :active) {
+      outline: 0;
+    }
+  }
+
+  /* Honor users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    html {
+      scroll-behavior: initial;
+    }
+  }
+}

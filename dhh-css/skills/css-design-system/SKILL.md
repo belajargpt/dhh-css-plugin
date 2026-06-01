@@ -11,6 +11,15 @@ This is the **blank-slate bootstrapper.** Point it at a project with no CSS, or 
 
 Provenance: 37signals shipped three products — Campfire (chat), Writebook (publishing), Fizzy (kanban) — on roughly **14,000 lines of CSS across ~105 files with zero build tools.** The architecture below is mined verbatim from those stylesheets. It is cited only to credit where the patterns come from; nothing here requires any particular framework or templating language.
 
+## Copy-ready starter kit (you don't have to retype any of this)
+
+This skill ships the **real files.** Fifteen framework-agnostic `.css` files live in this plugin at **`assets/starter/`** — to bootstrap a blank project, *copy them* into the project's stylesheet directory instead of regenerating them by hand:
+
+- **Foundation** (load `_global.css` first): `_global.css` (the `@layer` line + every token), `reset.css`, `base.css`, `layout.css`, `utilities.css`.
+- **Reusable primitives** (any order — all in `@layer components`): `buttons.css`, `inputs.css`, `icons.css`, `animation.css`, `spinners.css`, `dialog.css`, `avatars.css`, `bubble.css`, `dividers.css`, `tooltips.css`.
+
+Every value in them is real — full OKLCH palette, dark mode, focus rings, masked-icon engine, `@starting-style` dialog — mined verbatim from shipped 37signals CSS. See `assets/starter/README.md` for the per-file map and load order. The sections below explain *what's in those files and why*, so you can extend them with confidence. But the fastest bootstrap is: **copy the kit, then build your feature components on top of it.**
+
 ## The foundation: five files, one order
 
 A design system is not a component library. It is the **substrate** every component reads from. You scaffold it in exactly this order, because each file depends on the one before it:
@@ -269,6 +278,21 @@ Build the substrate bottom-up, then add components on top:
 5. **One component file per concept** — `buttons.css`, `dialog.css`, etc., each into `@layer components`, each consuming tokens through local custom-property APIs.
 
 Never skip ahead. A button hardcoded with `#3b82f6` before the token layer exists is a button you will rewrite. Define the token, then consume it.
+
+## Primitives vs feature components
+
+Not every `.css` file is reusable, and the difference decides where it lives — this is the single most useful judgment call for keeping a system coherent as it grows.
+
+- A **primitive** is domain-free and reused across screens — `.btn`, `.card`, `.dialog`, `.avatar`, `.icon`. It lives in `@layer components`, is parametrized through `--component-*` tokens, and is named for *what it is*, never for where it's used. The starter primitives (`buttons.css`, `icons.css`, …) are exactly this: **one file, many uses.** The same `.btn` serves a toolbar, a form, a card, and a dialog.
+- A **feature component** composes primitives for one specific screen — a checkout panel, a kanban column, a comment thread. It encodes *your product's domain*, so it gets its own file in `@layer modules` and **sets primitive tokens** rather than restyling them:
+
+```css
+@layer modules {
+  .checkout .btn { --btn-background: var(--color-positive); }  /* compose, don't fork */
+}
+```
+
+The tell: if a filename names an app concept (`card-column`, `board`, `comment`), it's a feature component — keep it out of your shared layer and out of any starter kit. If you catch yourself hardcoding a color, a pixel, or a domain word *into a primitive*, stop: add a token or start a new file. That instinct — parametrize and extract rather than fork — is what lets one `.btn` file do the work of a hundred bespoke buttons.
 
 ## Design system starter checklist
 

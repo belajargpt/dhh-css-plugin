@@ -1,0 +1,54 @@
+/* spinners.css — CSS-only three-dot loading spinner built from radial-gradient masks. dhh-css starter kit. Load _global.css first. */
+
+@layer components {
+  /*
+   * A three-dot "bouncing dots" loading indicator drawn entirely with a masked
+   * solid fill — no GIF, no SVG, no JS, no DOM beyond a single pseudo-element.
+   * Three stacked radial gradients punch the dots out of one currentColor block,
+   * then the `submitting` keyframes (see animation.css) slide the mask layers
+   * through a 3x3 grid to animate them. Color follows `currentColor`, so the
+   * spinner matches text, theme, and link state for free.
+   *
+   * Usage: <span class="spinner" role="status" aria-label="Loading"></span>
+   */
+  .spinner {
+    /* Component-local tokens — override per instance via inline style or a parent rule. */
+    --spinner-size: 1.25em;            /* overall dot-grid scale */
+    --spinner-color: currentColor;     /* defaults to inherited text color */
+    --spinner-duration: 1.3s;          /* one full bounce cycle */
+
+    color: var(--spinner-color, currentColor);
+    display: inline-block;
+    inline-size: var(--spinner-size, 1.25em);
+    aspect-ratio: 8 / 5;
+    position: relative;
+    vertical-align: middle;
+
+    &::before {
+      /* One radial gradient per dot; repeated three times across the mask. */
+      --spinner-mask: no-repeat radial-gradient(closest-side, #000 68%, #0000 71%);
+
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--spinner-color, currentColor);
+
+      /* Standard + WebKit mask: three identical layers, each one dot wide/tall. */
+      mask: var(--spinner-mask), var(--spinner-mask), var(--spinner-mask);
+      mask-size: 28% 45%;
+      -webkit-mask: var(--spinner-mask), var(--spinner-mask), var(--spinner-mask);
+      -webkit-mask-size: 28% 45%;
+
+      animation: submitting var(--spinner-duration, 1.3s) infinite linear;
+    }
+  }
+
+  /* Honor reduced-motion: hold the dots steady instead of bouncing. */
+  @media (prefers-reduced-motion: reduce) {
+    .spinner::before {
+      animation: none;
+      mask-position: 0% 50%, 50% 50%, 100% 50%;
+      -webkit-mask-position: 0% 50%, 50% 50%, 100% 50%;
+    }
+  }
+}
