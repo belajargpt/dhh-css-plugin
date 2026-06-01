@@ -1,0 +1,41 @@
+{
+  "name": "dhh-css",
+  "version": "0.1.0",
+  "description": "Write a real CSS design system the 37signals way — in any framework, with zero build tools. 5 skills distilled from 37signals' Campfire, Writebook, and Fizzy (~14K lines of CSS, no Sass, no PostCSS, no Tailwind). Teaches any LLM to bootstrap a design system from a blank project, then keep it consistent: cascade layers, OKLCH design tokens, dark mode by flipping values, semantic component classes driven by CSS variables, modern features (:has(), @starting-style, container queries, color-mix, native nesting), plus guardrails (anti-patterns, naming, a review checklist). Framework-agnostic: drop the CSS into React, Vue, Svelte, plain HTML, or anything that loads a stylesheet.",
+  "author": {
+    "name": "BelajarGPT",
+    "url": "https://belajargpt.co"
+  },
+  "homepage": "https://github.com/belajargpt/dhh-css-plugin",
+  "repository": "https://github.com/belajargpt/dhh-css-plugin",
+  "license": "MIT",
+  "keywords": [
+    "css",
+    "vanilla-css",
+    "design-system",
+    "design-tokens",
+    "37signals",
+    "dhh",
+    "campfire",
+    "writebook",
+    "fizzy",
+    "no-build",
+    "nobuild",
+    "cascade-layers",
+    "oklch",
+    "color-mix",
+    "custom-properties",
+    "css-variables",
+    "dark-mode",
+    "has-selector",
+    "container-queries",
+    "starting-style",
+    "native-nesting",
+    "logical-properties",
+    "semantic-css",
+    "component-css",
+    "tailwind-alternative",
+    "framework-agnostic",
+    "belajargpt"
+  ]
+}

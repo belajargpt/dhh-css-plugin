@@ -1,0 +1,46 @@
+{
+  "name": "dhh-css-marketplace",
+  "owner": {
+    "name": "BelajarGPT",
+    "url": "https://github.com/belajargpt"
+  },
+  "metadata": {
+    "description": "A CSS design-system plugin for Claude Code — write vanilla CSS the 37signals way in any framework, zero build tools. Distilled from Campfire, Writebook, and Fizzy.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "dhh-css",
+      "description": "5 skills that make any LLM fluent in 37signals-style vanilla CSS — framework-agnostic, no build tools. Bootstrap a design system from a blank project (css-design-system), then deepen it: OKLCH tokens + dark mode (css-design-tokens), variable-driven semantic components (css-components), modern features like :has() / @starting-style / container queries / color-mix (css-modern-features), and guardrails — anti-patterns, naming, review checklist (css-guardrails).",
+      "author": {
+        "name": "BelajarGPT",
+        "url": "https://belajargpt.co"
+      },
+      "homepage": "https://github.com/belajargpt/dhh-css-plugin",
+      "tags": [
+        "css",
+        "vanilla-css",
+        "design-system",
+        "design-tokens",
+        "37signals",
+        "dhh",
+        "campfire",
+        "writebook",
+        "fizzy",
+        "no-build",
+        "cascade-layers",
+        "oklch",
+        "color-mix",
+        "dark-mode",
+        "has-selector",
+        "container-queries",
+        "starting-style",
+        "semantic-css",
+        "tailwind-alternative",
+        "framework-agnostic",
+        "belajargpt"
+      ],
+      "source": "./dhh-css"
+    }
+  ]
+}
